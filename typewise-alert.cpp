@@ -34,12 +34,11 @@ BreachType classifyTemperatureBreach(CoolingType coolingType, double temperature
 
 void checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
   BreachType breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
-  const unsigned short header = 0xfeed;
-  switch(alertTarget) {
-    case TO_CONTROLLER:
+  if(alertTarget == TO_CONTROLLER){
+      const unsigned short header = 0xfeed;
       cout<<"header = "<<header<<" "<<"breachType = "<<breachType<<endl;
-      break;
-    case TO_EMAIL:
+  }
+  else {
       const char* recepient = "a.b@c.com";
       if(breachType == TOO_LOW){
           cout<<"recepient = "<<recepient<<" "<<"Hi, the temperature is too low"<<endl;
@@ -50,6 +49,5 @@ void checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double
       else{
           cout<<"NORMAL"<<endl;
       }
-      break;
   }
 }
