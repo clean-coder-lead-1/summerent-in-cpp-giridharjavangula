@@ -32,15 +32,14 @@ return inferBreach(temperatureInC, lowerLimit, upperLimit);
 
 void sendToEmail(BreachType breachType) {
   const char* recepient = "a.b@c.com";
-  switch(breachType) {
-    case TOO_LOW:
+  if(breachType == TOO_LOW){
       cout<<"recepient = "<<recepient<<" "<<"Hi, the temperature is too low"<<endl;
-      break;
-    case TOO_HIGH:
+  }
+  else if(breachType == TOO_HIGH){
       cout<<"recepient = "<<recepient<<" "<<"Hi, the temperature is too high"<<endl;
-      break;
-    case NORMAL:
-      break;
+  }
+  else{
+      cout<<"NORMAL"<<endl;
   }
 }
 
