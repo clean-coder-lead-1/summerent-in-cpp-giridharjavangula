@@ -1,5 +1,6 @@
 #include "typewise-alert.h"
-#include <stdio.h>
+#include<iostream>
+using namespace std;
 
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   if(value < lowerLimit) {
@@ -11,8 +12,7 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   return NORMAL;
 }
 
-BreachType classifyTemperatureBreach(
-    CoolingType coolingType, double temperatureInC) {
+BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC) {
   int lowerLimit = 0;
   int upperLimit = 0;
   switch(coolingType) {
@@ -32,40 +32,24 @@ BreachType classifyTemperatureBreach(
   return inferBreach(temperatureInC, lowerLimit, upperLimit);
 }
 
-void sendToController(BreachType breachType) {
+void checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
+  BreachType breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
   const unsigned short header = 0xfeed;
-  printf("%x : %x\n", header, breachType);
-}
-
-void sendToEmail(BreachType breachType) {
-  const char* recepient = "a.b@c.com";
-  switch(breachType) {
-    case TOO_LOW:
-      printf("To: %s\n", recepient);
-      printf("Hi, the temperature is too low\n");
-      break;
-    case TOO_HIGH:
-      printf("To: %s\n", recepient);
-      printf("Hi, the temperature is too high\n");
-      break;
-    case NORMAL:
-      break;
-  }
-}
-
-void checkAndAlert(
-    AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
-
-  BreachType breachType = classifyTemperatureBreach(
-    batteryChar.coolingType, temperatureInC
-  );
-
   switch(alertTarget) {
     case TO_CONTROLLER:
-      sendToController(breachType);
+      cout<<"header = "<<header<<" "<<"breachType = "<<breachType<<endl;
       break;
     case TO_EMAIL:
-      sendToEmail(breachType);
+      const char* recepient = "a.b@c.com";
+      if(breachType == TOO_LOW){
+          cout<<"recepient = "<<recepient<<" "<<"Hi, the temperature is too low"<<endl;
+      }
+      else if(breachType == TOO_HIGH){
+          cout<<"recepient = "<<recepient<<" "<<"Hi, the temperature is too high"<<endl;
+      }
+      else{
+          cout<<"NORMAL"<<endl;
+      }
       break;
   }
 }
