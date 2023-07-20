@@ -69,3 +69,7 @@ void checkAndAlert(
       break;
   }
 }
+
+int main{
+  
+}
