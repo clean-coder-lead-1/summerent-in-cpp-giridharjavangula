@@ -5,17 +5,19 @@ using namespace std;
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC) {
   int lowerLimit = 0;
   int upperLimit = 0;
-  if(coolingType == PASSIVE_COOLING){
+    switch(coolingType) {
+    case PASSIVE_COOLING:
       lowerLimit = 0;
       upperLimit = 35;
-  }
-  else if(coolingType == HI_ACTIVE_COOLING){
+      break;
+    case HI_ACTIVE_COOLING:
       lowerLimit = 0;
       upperLimit = 45;
-  }
-  else{
+      break;
+    case MED_ACTIVE_COOLING:
       lowerLimit = 0;
       upperLimit = 40;
+      break;
   }
   if(temperatureInC < lowerLimit){
       return TOO_LOW;
