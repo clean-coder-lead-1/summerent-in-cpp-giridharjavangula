@@ -2,32 +2,32 @@
 #include<iostream>
 using namespace std;
 
+BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
+  if(value < lowerLimit) {
+    return TOO_LOW;
+  }
+  if(value > upperLimit) {
+    return TOO_HIGH;
+  }
+  return NORMAL;
+}
+
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC) {
   int lowerLimit = 0;
   int upperLimit = 0;
-    switch(coolingType) {
-    case PASSIVE_COOLING:
+  if(coolingType == PASSIVE_COOLING){
       lowerLimit = 0;
       upperLimit = 35;
-      break;
-    case HI_ACTIVE_COOLING:
+  }
+  else if(coolingType == HI_ACTIVE_COOLING){
       lowerLimit = 0;
       upperLimit = 45;
-      break;
-    case MED_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 40;
-      break;
-  }
-  if(temperatureInC < lowerLimit){
-      return TOO_LOW;
-  }
-  else if(temperatureInC > upperLimit){
-      return TOO_HIGH;
   }
   else{
-      return NORMAL;
+      lowerLimit = 0;
+      upperLimit = 40;
   }
+return inferBreach(temperatureInC, lowerLimit, upperLimit);
 }
 
 void checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
